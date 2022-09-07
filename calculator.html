@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>calculator</title>
+    <style>
+      table {
+        background-color: black;
+        border: none;
+        width: 254px;
+        height: 300px;
+        border-spacing: 5px;
+      }
+      input {
+        height: 100px;
+        width: 250px;
+        background: #000;
+        border: none;
+        color: white;
+        text-align: right;
+        font-size: 50px;
+      }
+
+      td {
+        line-height: 50px;
+        color: white;
+        text-align: center;
+        height: 55px;
+        width: 55px;
+        border-radius: 50%;
+        font-size: 25px;
+        cursor: pointer;
+      }
+      .orange {
+        background-color: orange;
+      }
+      .grey {
+        background-color: grey;
+      }
+      .black {
+        background-color: rgb(72, 70, 70);
+      }
+      .sep-border-radius {
+        border-radius: 3em;
+      }
+      button {
+        background: none;
+        /* background-color: red; */
+        border-radius: 50%;
+        width: 55px;
+        height: 55px;
+        color: inherit;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+      }
+      .zero {
+        height: 200%;
+        width: 200%;
+      }
+      .center {
+        position: absolute;
+        left: 40%;
+        top: 15%;
+      }
+      .input-disable {
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="center">
+      <table>
+        <tr colspan="4">
+          <input type="text" value="0" class="input-disable" id="input" />
+        </tr>
+
+        <tr>
+          <td class="grey" onclick="emptyDisp()"><button>AC</button></td>
+          <td class="grey" onclick="backSpace()"><button>&#8678;</button></td>
+          <td class="grey" onclick="fun(this.innerText)">
+            <button>%</button>
+          </td>
+          <td class="orange" onclick="fun(this.innerText)">
+            <button>/</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="black" onclick="fun(this.innerText)">
+            <button>7</button>
+          </td>
+          <td class="black" onclick="fun(this.innerText)">
+            <button>8</button>
+          </td>
+          <td class="black" onclick="fun(this.innerText)">
+            <button>9</button>
+          </td>
+          <td class="orange" onclick="fun(this.innerText)">
+            <button>*</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="black" onclick="fun(this.innerText)">
+            <button>4</button>
+          </td>
+          <td class="black" onclick="fun(this.innerText)">
+            <button>5</button>
+          </td>
+          <td class="black" onclick="fun(this.innerText)">
+            <button>6</button>
+          </td>
+          <td class="orange" onclick="fun(this.innerText)">
+            <button>-</button>
+          </td>
+        </tr>
+        <tr>
+          <td class="black" onclick="fun(this.innerText)">
+            <button>1</button>
+          </td>
+          <td class="black" onclick="fun(this.innerText)">
+            <button>2</button>
+          </td>
+          <td class="black" onclick="fun(this.innerText)">
+            <button>3</button>
+          </td>
+          <td class="orange" onclick="fun(this.innerText)">
+            <button>+</button>
+          </td>
+        </tr>
+        <tr>
+          <td
+            class="black sep-border-radius"
+            colspan="2"
+            onclick="fun(this.innerText)"
+          >
+            <div style="text-align: center; margin-right: 60px">
+              <button class="zero">0</button>
+            </div>
+          </td>
+          <td class="black" onclick="fun(this.innerText)">
+            <button>.</button>
+          </td>
+          <td class="orange" onclick="result()"><button>=</button></td>
+        </tr>
+      </table>
+    </div>
+
+    <script type="text/javascript">
+      function fun(number) {
+        let currentVal = document.getElementById("input").value;
+        let lastChar = currentVal.slice(-1);
+        let currentNumberLength = currentVal.length;
+
+        let lastCharIsSymbol = isSymbol(lastChar);
+        let currentCharIsSymbol = isSymbol(number);
+
+        if (currentNumberLength < 9) {
+          if (lastCharIsSymbol && currentCharIsSymbol) {
+            alert("Only Valid Expressions Can Be Added");
+          } else {
+            if (number === '.' & currentVal.includes('.')) {
+              alert("Only Valid Expressions Can Be Added");
+            } else {
+              if (currentVal == 0) {
+                document.getElementById("input").value = number;
+              } else {
+                document.getElementById("input").value = currentVal + number;
+              }
+            }
+          }
+        } else {
+          alert("Cannot Enter More Than 9 Digits To Evaluate");
+        }
+      }
+
+      function isSymbol(char) {
+        if (
+          char === "%" ||
+          char === "/" ||
+          char === "*" ||
+          char === "-" ||
+          char === "+"
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+
+      function emptyDisp() {
+        document.getElementById("input").value = "0";
+      }
+      function result() {
+        let result = document.getElementById("input").value;
+        let ans = eval(result);
+        ans = ans.toString();
+        if (ans.length > 9) {
+          ans = ans.substring(0, 9);
+        }
+        document.getElementById("input").value = ans;
+      }
+      function backSpace() {
+        let str = document.getElementById("input").value;
+        let updated_str = str.slice(0, -1);
+        document.getElementById("input").value = updated_str;
+      }
+    </script>
+  </body>
+</html>
